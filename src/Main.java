@@ -25,20 +25,18 @@ public class Main {
                     case 1:
                         if(ListaReserva.size() <= 5){
                             ListaReserva.add(ReservarMesa());
-                            ListarReservas(ListaReserva);
                         }
                         else{
                             showMessageDialog(null, "Lista de reserva esta cheia ! Movendo para a lista de espera.");
                              ListaEspera.inserirFim(ReservarMesa());
                         }
-
                         break;
                     case 2:
 //                        Pesquisar(reserva, listaDeEspera, posicaoEspera, posicao);
                         break;
 
                     case 3:
-//                        ListarReservas(reserva, posicao);
+                        ListarReservas(ListaReserva);
                         break;
 
                     case 4:
@@ -113,10 +111,14 @@ public class Main {
 
     private static void ListarReservas(List<Reserva> ListaReserva){
         ListaReserva.forEach(reservas -> {
-            System.out.println(reservas);
+            System.out.println(reservas.toString());
         });
 
     }
+
+
+
+
 
 
 

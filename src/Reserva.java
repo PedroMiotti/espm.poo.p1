@@ -16,9 +16,7 @@ public class Reserva implements Pagamento {
 
     @Override
     public String toString() {
-        return "Reserva{" +
-                "cliente=" + getClass().getName() + ' ' + cliente +
-                ", pagamentoAVista=" + pagamentoAVista +
-                '}';
+        return cliente.toString() +
+                ", pagamentoAVista=" + pagamentoAVista;
     }
 }

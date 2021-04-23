@@ -8,8 +8,8 @@ public class PessoaFisica extends Cliente {
 
     @Override
     public String toString() {
-        return "PessoaFisica{" +
-                "cpf='" + cpf + '\'' +
-                '}';
+        return "Pessoa Fisica - " +
+                "nome = " + getNome() +
+                "cpf = " + cpf;
     }
 }
