@@ -1,0 +1,18 @@
+PessoaJuridica p1 = new PessoaJuridica("Pedro", "1");
+PessoaJuridica p2 = new PessoaJuridica("Thiago", "2");
+PessoaFisica p3 = new PessoaFisica("Stefanie", "3");
+PessoaFisica p4 = new PessoaFisica("Gilberto", "4");
+PessoaFisica p5 = new PessoaFisica("Rafa", "5");
+
+Reserva r1 = new Reserva(p1, true);
+Reserva r2 = new Reserva(p2, true);
+Reserva r3 = new Reserva(p3, true);
+Reserva r4 = new Reserva(p4, true);
+Reserva r5 = new Reserva(p5, true);
+
+ListaReserva.add(r1);
+ListaReserva.add(r2);
+
+ListaEspera.inserirFim(r3);
+ListaEspera.inserirFim(r4);
+ListaEspera.inserirFim(r5);

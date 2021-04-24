@@ -22,7 +22,8 @@ public class Fila<T> {
     }
 
     public void inserirInicio(T data) {
-        No<T> novoNo = new No(data);
+        No<T> novoNo = new No();
+        novoNo.setData(data);
 
         if (inicio == null)
             fim = inicio = novoNo;
@@ -36,7 +37,8 @@ public class Fila<T> {
     }
 
     public void inserirFim(T data){
-        No novoNo = new No(data);
+        No novoNo = new No();
+        novoNo.setData(data);
 
         if (fim == null)
             inicio = fim = novoNo;
@@ -108,13 +110,14 @@ public class Fila<T> {
         return novaLista;
     }
 
-    public void deletarFromIndex(int n) {
-        if (inicio == null || n <= 0)
+    public void deletarFromIndex(int index) {
+        if (inicio == null || index < 0)
             return;
 
         No aux = inicio;
 
-        for (int i = 1; aux != null && i < n; i++) {
+        for (int i = 0; aux != null && i < index; i++) {
+            System.out.println("aux.data " + aux.data);
             aux = aux.prox;
         }
 

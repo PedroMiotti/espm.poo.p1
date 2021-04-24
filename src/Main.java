@@ -14,6 +14,30 @@ public class Main {
         List<Reserva> ListaReserva = new ArrayList<>();
         Fila<Reserva> ListaEspera = new Fila<Reserva>();
 
+        PessoaJuridica p1 = new PessoaJuridica("Pedro", "1");
+        PessoaJuridica p2 = new PessoaJuridica("Thiago", "2");
+        PessoaFisica p3 = new PessoaFisica("Stefanie", "3");
+        PessoaFisica p4 = new PessoaFisica("Gilberto", "4");
+        PessoaFisica p5 = new PessoaFisica("Rafa", "5");
+
+        Reserva r1 = new Reserva(p1, true);
+        Reserva r2 = new Reserva(p2, true);
+        Reserva r3 = new Reserva(p3, true);
+        Reserva r4 = new Reserva(p4, true);
+        Reserva r5 = new Reserva(p5, true);
+
+        ListaReserva.add(r1);
+        ListaReserva.add(r2);
+
+        ListaEspera.inserirFim(r3);
+        ListaEspera.inserirFim(r4);
+        ListaEspera.inserirFim(r5);
+
+        /*
+        * Professores, caso queira testar mais facilmente sem ter que ficar adicionando reservas,
+        * copie cole o conteudo do arquivo paraTestar.txt aqui.
+        */
+
         int opcao;
 
         do {
@@ -40,7 +64,7 @@ public class Main {
                         break;
 
                     case 4:
-//                        ListarReservas(listaDeEspera, posicaoEspera);
+                        ListarListaDeEspera(ListaEspera);
                         break;
 
                     case 5:
@@ -119,13 +143,26 @@ public class Main {
         showMessageDialog(null, listaDeReservas);
     }
 
+    private static void ListarListaDeEspera(Fila<Reserva> ListaEspera){
+        String listaDeEspera = "";
+        List novaLista;
+
+        novaLista = ListaEspera.toArray();
+
+        for (int i = 0; i < novaLista.size(); i++) {
+            listaDeEspera += novaLista.get(i);
+        }
+
+        showMessageDialog(null, listaDeEspera);
+    }
+
     /*
         @param Id: String - CPF ou CNPJ
      */
-    private static int ProcurarReservaPorId(List<Reserva> ListaReserva, String id){
+    private static int ProcurarReservaPorId(List<Reserva> Lista, String id){
         int pos = -1;
-        for(int i = 0; i < ListaReserva.size(); i++){
-            if(ListaReserva.get(i).getCliente().getId().equals(id)){
+        for(int i = 0; i < Lista.size(); i++){
+            if(Lista.get(i).getCliente().getId().equals(id)){
                 pos = i;
                 return pos;
             }
@@ -158,17 +195,18 @@ public class Main {
     }
 
     private static List CancelarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera){
-        String id = showInputDialog(null, "Qual o CPF ou CNPJ da sua reserva ?");
+        String id;
         int posicaoReserva;
         List novaLista;
         Reserva primeiraReservaListaEspera;
 
+        id = showInputDialog(null, "Qual o CPF ou CNPJ da sua reserva ?");
         posicaoReserva = ProcurarReservaPorId(ListaReserva, id);
 
         if(posicaoReserva != -1){
             ListaReserva.remove(posicaoReserva);
 
-            // Movendo primeira reserva de lista de espera para a lista de reserva
+            // Movendo a primeira reserva de lista de espera para a lista de reserva
             primeiraReservaListaEspera = ListaEspera.getInicio();
             ListaReserva.add(primeiraReservaListaEspera);
             ListaEspera.deletarInicio();
@@ -185,7 +223,7 @@ public class Main {
             }
             else{
                 ListaEspera.deletarFromIndex(posicaoReserva);
-                showMessageDialog(null, "Sua reserva foi cancelada com sucesso" + (posicaoReserva + 1) );
+                showMessageDialog(null, "Sua reserva foi cancelada com sucesso");
             }
         }
 
