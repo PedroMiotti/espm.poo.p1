@@ -6,10 +6,13 @@ public class PessoaFisica extends Cliente {
         this.cpf = cpf;
     }
 
+    public String getId(){
+        return cpf;
+    }
+
     @Override
     public String toString() {
-        return "Pessoa Fisica - " +
-                "nome = " + getNome() +
-                "cpf = " + cpf;
+        return "Pessoa Fisica" + "\nnome : " + getNome() + "\nCPF : " + cpf;
     }
+
 }

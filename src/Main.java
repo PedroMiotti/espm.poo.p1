@@ -1,6 +1,8 @@
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class Main {
             } else {
                 switch (opcao) {
                     case 1:
-                        if(ListaReserva.size() <= 5){
+                        if(ListaReserva.size() <= 1){
                             ListaReserva.add(ReservarMesa());
                         }
                         else{
@@ -32,7 +34,7 @@ public class Main {
                         }
                         break;
                     case 2:
-//                        Pesquisar(reserva, listaDeEspera, posicaoEspera, posicao);
+                        PesquisarReserva(ListaReserva, ListaEspera);
                         break;
 
                     case 3:
@@ -110,16 +112,52 @@ public class Main {
     }
 
     private static void ListarReservas(List<Reserva> ListaReserva){
-        ListaReserva.forEach(reservas -> {
-            System.out.println(reservas.toString());
-        });
+        String listaDeReservas = "";
 
+        for (int i = 0; i < ListaReserva.size(); i++) {
+            listaDeReservas += ListaReserva.get(i);
+        }
+
+        showMessageDialog(null, listaDeReservas);
     }
 
+    /*
+        @param Id: String - CPF ou CNPJ
+     */
+    private static int ProcurarReservaPorId(List<Reserva> ListaReserva, String id){
+        int pos = -1;
+        for(int i = 0; i < ListaReserva.size(); i++){
+            if(ListaReserva.get(i).getCliente().getId().equals(id)){
+                pos = i;
+                return pos;
+            }
+        }
+        return pos;
+    }
 
+    private static void PesquisarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera){
+        String id = showInputDialog(null, "Qual o CPF ou CNPJ da sua reserva ?");
+        int posicaoReserva;
+        List novaLista;
 
+        posicaoReserva = ProcurarReservaPorId(ListaReserva, id);
 
+        if(posicaoReserva != -1){
+            showMessageDialog(null, "Sua reserva foi encontrada !");
+        }
+        else{
+            novaLista = ListaEspera.toArray();
+            posicaoReserva = ProcurarReservaPorId(novaLista, id);
 
+            if(posicaoReserva == -1){
+                showMessageDialog(null, "Sua reserva nao foi encontrada !");
+            }
+            else{
+                showMessageDialog(null, "Voce esta na lista de espera na posicao : " + (posicaoReserva + 1) );
+            }
+        }
+
+    }
 
 
 }

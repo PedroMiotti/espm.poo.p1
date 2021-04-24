@@ -1,5 +1,8 @@
 package Fila;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fila<T> {
     No<T> inicio;
     No<T> fim;
@@ -21,37 +24,30 @@ public class Fila<T> {
     public void inserirInicio(T data) {
         No<T> novoNo = new No(data);
 
-        if (novoNo == null)
-            System.out.print("Erro");
+        if (inicio == null)
+            fim = inicio = novoNo;
         else {
-            if (inicio == null)
-                fim = inicio = novoNo;
-            else {
-                novoNo.prox = inicio;
-                inicio.prox = novoNo;
-                inicio = novoNo;
-            }
-
-            tamanho++;
+            novoNo.prox = inicio;
+            inicio.ant = novoNo;
+            inicio = novoNo;
         }
+
+        tamanho++;
     }
 
     public void inserirFim(T data){
         No novoNo = new No(data);
 
-        if (novoNo == null)
-            System.out.print("Erro");
+        if (fim == null)
+            inicio = fim = novoNo;
         else {
-            if (fim == null)
-                inicio = fim = novoNo;
-            else {
-                novoNo.prox = fim;
-                fim.prox = novoNo;
-                fim = novoNo;
-            }
-
-            tamanho++;
+            novoNo.ant = fim;
+            fim.prox = novoNo;
+            fim = novoNo;
         }
+
+        tamanho++;
+
     }
 
     public void deletarInicio(){
@@ -99,6 +95,17 @@ public class Fila<T> {
             System.out.println("Fila vazia !");
 
         return fim.data;
+    }
+
+    public List toArray(){
+        No n = inicio;
+        List novaLista = new ArrayList();
+
+        while(n != null){
+            novaLista.add(n.data);
+            n = n.prox;
+        }
+        return novaLista;
     }
 
     public void deletarTudo() {

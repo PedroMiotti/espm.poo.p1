@@ -10,13 +10,20 @@ public class Reserva implements Pagamento {
         this.pagamentoAVista = pagamentoAVista;
     }
 
+    public Cliente getCliente(){
+        return cliente;
+    }
+
     public double calcularPagamento(){
         return 1.1;
     }
 
     @Override
     public String toString() {
-        return cliente.toString() +
-                ", pagamentoAVista=" + pagamentoAVista;
+        return cliente.toString() + "\nPagamento : " +
+                (pagamentoAVista ? " a vista" : " parcelado" ) + "\n\n";
     }
+
+
+
 }

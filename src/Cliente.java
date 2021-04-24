@@ -9,6 +9,8 @@ public abstract class Cliente {
         return nome;
     }
 
+    abstract public String getId();
+
     @Override
     public String toString() {
         return "Cliente{" +
