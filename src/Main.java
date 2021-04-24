@@ -10,49 +10,28 @@ import Fila.Fila;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         List<Reserva> ListaReserva = new ArrayList<>();
         Fila<Reserva> ListaEspera = new Fila<Reserva>();
 
-        PessoaJuridica p1 = new PessoaJuridica("Pedro", "1");
-        PessoaJuridica p2 = new PessoaJuridica("Thiago", "2");
-        PessoaFisica p3 = new PessoaFisica("Stefanie", "3");
-        PessoaFisica p4 = new PessoaFisica("Gilberto", "4");
-        PessoaFisica p5 = new PessoaFisica("Rafa", "5");
-
-        Reserva r1 = new Reserva(p1, true);
-        Reserva r2 = new Reserva(p2, true);
-        Reserva r3 = new Reserva(p3, true);
-        Reserva r4 = new Reserva(p4, true);
-        Reserva r5 = new Reserva(p5, true);
-
-        ListaReserva.add(r1);
-        ListaReserva.add(r2);
-
-        ListaEspera.inserirFim(r3);
-        ListaEspera.inserirFim(r4);
-        ListaEspera.inserirFim(r5);
-
         /*
-        * Professores, caso queira testar mais facilmente sem ter que ficar adicionando reservas,
-        * copie cole o conteudo do arquivo paraTestar.txt aqui.
-        */
+         * Professores, caso queira testar mais facilmente, sem ter que ficar varias adicionando reservas,
+         * copie e cole o conteudo do arquivo paraTestar.txt aqui.
+         */
 
         int opcao;
 
         do {
-            opcao = parseInt(showInputDialog(GerarMenu()));
-            if (opcao < 1 || opcao > 6) {
-                showMessageDialog(null, "Opcao invalida !");
-            } else {
+            try {
+                opcao = parseInt(showInputDialog(GerarMenu()));
+
                 switch (opcao) {
                     case 1:
-                        if(ListaReserva.size() <= 1){
+                        if (ListaReserva.size() <= 1) {
                             ListaReserva.add(ReservarMesa());
-                        }
-                        else{
+                        } else {
                             showMessageDialog(null, "Lista de reserva esta cheia ! Movendo para a lista de espera.");
-                             ListaEspera.inserirFim(ReservarMesa());
+                            ListaEspera.inserirFim(ReservarMesa());
                         }
                         break;
                     case 2:
@@ -71,12 +50,16 @@ public class Main {
                         ListaReserva = CancelarReserva(ListaReserva, ListaEspera);
                         break;
                 }
+
+            } catch (NumberFormatException e) {
+                showMessageDialog(null, "Caracter invalido ! Por favor digitar um numero.");
+                opcao = 0;
             }
         } while (opcao != 6);
 
     }
 
-    public static String GerarMenu(){
+    public static String GerarMenu() {
         String menu = "";
         menu += "1. Reservar mesa\n" +
                 "2. Pesquisar reserva\n" +
@@ -88,7 +71,7 @@ public class Main {
         return menu;
     }
 
-    private static Reserva  ReservarMesa(){
+    private static Reserva ReservarMesa() {
         String tipoPagamento;
         String tipoPessoa;
         Cliente cliente = null;
@@ -96,22 +79,22 @@ public class Main {
 
         tipoPessoa = showInputDialog("Pessoa Fisica[F] ou Pessoa Juridica[J] ?");
 
-        if(tipoPessoa.equalsIgnoreCase("f"))
+        if (tipoPessoa.equalsIgnoreCase("f"))
             cliente = CadastrarPF();
 
-        else if(tipoPessoa.equalsIgnoreCase("j"))
+        else if (tipoPessoa.equalsIgnoreCase("j"))
             cliente = CadastrarPJ();
 
         tipoPagamento = showInputDialog("Pagamento a vista ?\n A vista[0] Parcelado[1] ");
 
-        if(tipoPagamento.equalsIgnoreCase("0"))
+        if (tipoPagamento.equalsIgnoreCase("0"))
             _tipoPagamento = true;
 
         Reserva novaReserva = new Reserva(cliente, _tipoPagamento);
         return novaReserva;
     }
 
-    private static PessoaJuridica CadastrarPJ(){
+    private static PessoaJuridica CadastrarPJ() {
         String cnpj;
         String nome;
 
@@ -122,7 +105,7 @@ public class Main {
         return pj;
     }
 
-    private static PessoaFisica CadastrarPF(){
+    private static PessoaFisica CadastrarPF() {
         String cpf;
         String nome;
 
@@ -133,7 +116,7 @@ public class Main {
         return pf;
     }
 
-    private static void ListarReservas(List<Reserva> ListaReserva){
+    private static void ListarReservas(List<Reserva> ListaReserva) {
         String listaDeReservas = "";
 
         for (int i = 0; i < ListaReserva.size(); i++) {
@@ -143,7 +126,7 @@ public class Main {
         showMessageDialog(null, listaDeReservas);
     }
 
-    private static void ListarListaDeEspera(Fila<Reserva> ListaEspera){
+    private static void ListarListaDeEspera(Fila<Reserva> ListaEspera) {
         String listaDeEspera = "";
         List novaLista;
 
@@ -159,10 +142,10 @@ public class Main {
     /*
         @param Id: String - CPF ou CNPJ
      */
-    private static int ProcurarReservaPorId(List<Reserva> Lista, String id){
+    private static int ProcurarReservaPorId(List<Reserva> Lista, String id) {
         int pos = -1;
-        for(int i = 0; i < Lista.size(); i++){
-            if(Lista.get(i).getCliente().getId().equals(id)){
+        for (int i = 0; i < Lista.size(); i++) {
+            if (Lista.get(i).getCliente().getId().equals(id)) {
                 pos = i;
                 return pos;
             }
@@ -170,31 +153,29 @@ public class Main {
         return pos;
     }
 
-    private static void PesquisarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera){
+    private static void PesquisarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera) {
         String id = showInputDialog(null, "Qual o CPF ou CNPJ da sua reserva ?");
         int posicaoReserva;
         List novaLista;
 
         posicaoReserva = ProcurarReservaPorId(ListaReserva, id);
 
-        if(posicaoReserva != -1){
+        if (posicaoReserva != -1) {
             showMessageDialog(null, "Sua reserva foi encontrada !");
-        }
-        else{
+        } else {
             novaLista = ListaEspera.toArray();
             posicaoReserva = ProcurarReservaPorId(novaLista, id);
 
-            if(posicaoReserva == -1){
+            if (posicaoReserva == -1) {
                 showMessageDialog(null, "Sua reserva nao foi encontrada !");
-            }
-            else{
-                showMessageDialog(null, "Voce esta na lista de espera na posicao : " + (posicaoReserva + 1) );
+            } else {
+                showMessageDialog(null, "Voce esta na lista de espera na posicao : " + (posicaoReserva + 1));
             }
         }
 
     }
 
-    private static List CancelarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera){
+    private static List CancelarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera) {
         String id;
         int posicaoReserva;
         List novaLista;
@@ -203,7 +184,7 @@ public class Main {
         id = showInputDialog(null, "Qual o CPF ou CNPJ da sua reserva ?");
         posicaoReserva = ProcurarReservaPorId(ListaReserva, id);
 
-        if(posicaoReserva != -1){
+        if (posicaoReserva != -1) {
             ListaReserva.remove(posicaoReserva);
 
             // Movendo a primeira reserva de lista de espera para a lista de reserva
@@ -213,15 +194,13 @@ public class Main {
 
             showMessageDialog(null, "Sua reserva foi cancelada com sucesso !");
             return ListaReserva;
-        }
-        else{
+        } else {
             novaLista = ListaEspera.toArray();
             posicaoReserva = ProcurarReservaPorId(novaLista, id);
 
-            if(posicaoReserva == -1){
+            if (posicaoReserva == -1) {
                 showMessageDialog(null, "Sua reserva nao foi encontrada !");
-            }
-            else{
+            } else {
                 ListaEspera.deletarFromIndex(posicaoReserva);
                 showMessageDialog(null, "Sua reserva foi cancelada com sucesso");
             }
