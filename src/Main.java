@@ -14,8 +14,6 @@ public class Main {
         List<Reserva> ListaReserva = new ArrayList<>();
         Fila<Reserva> ListaEspera = new Fila<Reserva>();
 
-        int posicao = 0;
-        int posicaoEspera = 0;
         int opcao;
 
         do {
@@ -46,7 +44,7 @@ public class Main {
                         break;
 
                     case 5:
-//                        int[] aux = CancelarReserva(reserva, listaDeEspera, posicaoEspera, posicao);
+                        ListaReserva = CancelarReserva(ListaReserva, ListaEspera);
                         break;
                 }
             }
@@ -159,7 +157,40 @@ public class Main {
 
     }
 
+    private static List CancelarReserva(List<Reserva> ListaReserva, Fila<Reserva> ListaEspera){
+        String id = showInputDialog(null, "Qual o CPF ou CNPJ da sua reserva ?");
+        int posicaoReserva;
+        List novaLista;
+        Reserva primeiraReservaListaEspera;
 
+        posicaoReserva = ProcurarReservaPorId(ListaReserva, id);
+
+        if(posicaoReserva != -1){
+            ListaReserva.remove(posicaoReserva);
+
+            // Movendo primeira reserva de lista de espera para a lista de reserva
+            primeiraReservaListaEspera = ListaEspera.getInicio();
+            ListaReserva.add(primeiraReservaListaEspera);
+            ListaEspera.deletarInicio();
+
+            showMessageDialog(null, "Sua reserva foi cancelada com sucesso !");
+            return ListaReserva;
+        }
+        else{
+            novaLista = ListaEspera.toArray();
+            posicaoReserva = ProcurarReservaPorId(novaLista, id);
+
+            if(posicaoReserva == -1){
+                showMessageDialog(null, "Sua reserva nao foi encontrada !");
+            }
+            else{
+                ListaEspera.deletarFromIndex(posicaoReserva);
+                showMessageDialog(null, "Sua reserva foi cancelada com sucesso" + (posicaoReserva + 1) );
+            }
+        }
+
+        return ListaReserva;
+    }
 }
 
 

@@ -108,6 +108,40 @@ public class Fila<T> {
         return novaLista;
     }
 
+    public void deletarFromIndex(int n) {
+        if (inicio == null || n <= 0)
+            return;
+
+        No aux = inicio;
+
+        for (int i = 1; aux != null && i < n; i++) {
+            aux = aux.prox;
+        }
+
+        if (aux == null)
+            return;
+
+        deletarNo(aux);
+    }
+
+    No deletarNo(No noParaDeletar) {
+        if (inicio == null || noParaDeletar == null)
+            return null;
+
+        if (inicio == noParaDeletar)
+            inicio = noParaDeletar.prox;
+
+        if (noParaDeletar.prox != null)
+            noParaDeletar.prox.ant = noParaDeletar.ant;
+
+        if (noParaDeletar.ant != null)
+            noParaDeletar.ant.prox = noParaDeletar.prox;
+
+        noParaDeletar = null;
+
+        return inicio;
+    }
+
     public void deletarTudo() {
         fim = null;
         while (inicio != null) {
