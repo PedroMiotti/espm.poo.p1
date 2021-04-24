@@ -15,7 +15,7 @@ public class Main {
         Fila<Reserva> ListaEspera = new Fila<Reserva>();
 
         /*
-         * Professores, caso queira testar mais facilmente, sem ter que ficar varias adicionando reservas,
+         * Professores, caso queira testar mais facilmente, sem ter que ficar adicionando varias reservas,
          * copie e cole o conteudo do arquivo paraTestar.txt aqui.
          */
 
